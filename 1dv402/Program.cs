@@ -98,5 +98,23 @@ namespace _1dv402
             return values;
         }
 
+        static void ShowMessage(string message, bool isError = false)
+        {
+            if (isError)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine(message);
+                Console.ResetColor();
+                return;
+            }
+            else        //Egenteligen onödigt med tanke på return här över... men har den kvar för readability.
+            {
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.WriteLine(message);
+                Console.ResetColor();
+                return;
+            }
+
+        }
     }
 }

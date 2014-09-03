@@ -13,6 +13,8 @@ namespace _1dv402
             double total = ReadPositiveDouble("Ange totalsumma\t\t: ");
             uint cash = ReadUint("Ange erhållet belopp\t: ", total);
 
+            int[] ret = SplitIntoDenominations((int)(cash - total), new uint[] { 1, 5, 10, 20, 50, 100, 500 });
+
         }
 
         static double ReadPositiveDouble(string prompt = null)
@@ -78,6 +80,22 @@ namespace _1dv402
             }
 
             return value;
+        }
+
+        static int[] SplitIntoDenominations(int value, uint[] denominations)
+        {
+            int[] values = new int[denominations.Length];
+            int sum = value;
+
+            for (int i = denominations.Length - 1; i>=0; i--)
+            {
+                int rest = (int)(sum % denominations[i]);
+                values[i] = (int)((sum - rest) / denominations[i]);
+
+                sum = rest;
+            }
+
+            return values;
         }
 
     }

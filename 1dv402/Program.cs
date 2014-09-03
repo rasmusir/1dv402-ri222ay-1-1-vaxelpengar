@@ -29,24 +29,16 @@ namespace _1dv402
 
                 value = 0;
 
-                if (Double.TryParse(Console.ReadLine().Replace('.',','), out value))
+                if (Double.TryParse(Console.ReadLine().Replace('.', ','), out value))
                 {
                     double roundedValue = Math.Round(value, MidpointRounding.AwayFromZero);
                     if (roundedValue > 0)
                         break;
                     else
-                    {
-                        Console.BackgroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Whops! '{0}' är en för liten summa.", value);
-                        Console.ResetColor();
-                    }
+                        ShowMessage("Whops! '" + value + "' är en för liten summa.", true);
                 }
                 else
-                {
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Whops! Du har inte skrivit in en giltig summa.");
-                    Console.ResetColor();
-                }
+                    ShowMessage("Whops! Du har inte skrivit in en giltig summa.", true);
             }
             return value;
 
@@ -63,20 +55,12 @@ namespace _1dv402
                 if (UInt32.TryParse(Console.ReadLine(), out value))
                 {
                     if (value < min)
-                    {
-                        Console.BackgroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Whops! {0} är ett för litet belopp.", value);
-                        Console.ResetColor();
-                    }
+                        ShowMessage("Whops! '" + value + "' är ett för litet belopp.", true);
                     else
                         break;
                 }
                 else
-                {
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Whops! Du har inte skrivit in en giltig summa.");
-                    Console.ResetColor();
-                }
+                    ShowMessage("Whops! Du har inte skrivit in en giltig summa.", true);
             }
 
             return value;

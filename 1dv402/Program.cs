@@ -10,11 +10,15 @@ namespace _1dv402
     {
         static void Main(string[] args)
         {
-            double total = ReadPositiveDouble("Ange totalsumma\t\t: ");
+            double subtotal = ReadPositiveDouble("Ange totalsumma\t\t: ");
+            uint total = (uint)Math.Round(subtotal, MidpointRounding.AwayFromZero);
             uint cash = ReadUint("Ange erhållet belopp\t: ", total);
+            uint change = cash - total;
+            double roundingOffAmount = total - subtotal;
 
-            int[] ret = SplitIntoDenominations((int)(cash - total), new uint[] { 1, 5, 10, 20, 50, 100, 500 });
+            uint[] ret = SplitIntoDenominations(change, new uint[] { 1, 5, 10, 20, 50, 100, 500 });
 
+            PrintReceipt(subtotal, roundingOffAmount, total, cash, change, ret, null);
         }
 
         static double ReadPositiveDouble(string prompt = null)
@@ -29,7 +33,7 @@ namespace _1dv402
 
                 value = 0;
 
-                if (Double.TryParse(Console.ReadLine().Replace('.', ','), out value))
+                if (Double.TryParse(Console.ReadLine(), out value))
                 {
                     double roundedValue = Math.Round(value, MidpointRounding.AwayFromZero);
                     if (roundedValue > 0)
@@ -66,15 +70,15 @@ namespace _1dv402
             return value;
         }
 
-        static int[] SplitIntoDenominations(int value, uint[] denominations)
+        static uint[] SplitIntoDenominations(uint value, uint[] denominations)
         {
-            int[] values = new int[denominations.Length];
-            int sum = value;
+            uint[] values = new uint[denominations.Length];
+            uint sum = value;
 
             for (int i = denominations.Length - 1; i>=0; i--)
             {
-                int rest = (int)(sum % denominations[i]);
-                values[i] = (int)((sum - rest) / denominations[i]);
+                uint rest = (uint)(sum % denominations[i]);
+                values[i] = (uint)((sum - rest) / denominations[i]);
 
                 sum = rest;
             }
@@ -99,6 +103,14 @@ namespace _1dv402
                 return;
             }
 
+        }
+
+        static void PrintReceipt(double subtotal, double roundingOffAmount, uint total, uint cash, uint change, uint[] notes, uint[] denominations)
+        {
+            Console.WriteLine("KVITTO");
+            Console.WriteLine("Totalt\t\t\t:{0,5}", subtotal);
+            Console.WriteLine("Öresavrundning\t\t:{0,5}", roundingOffAmount);
+            Console.WriteLine("Att betala\t\t:{0,5}", total);
         }
     }
 }

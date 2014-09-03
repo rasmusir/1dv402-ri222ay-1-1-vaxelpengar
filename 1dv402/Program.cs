@@ -10,7 +10,7 @@ namespace _1dv402
     {
         static void Main(string[] args)
         {
-            ReadPositiveDouble("Ange totalsumma\t\t: ");
+            Console.WriteLine(ReadPositiveDouble("Ange totalsumma\t\t: "));
         }
 
         static double ReadPositiveDouble(string prompt = null)
@@ -26,7 +26,7 @@ namespace _1dv402
 
                 value = 0;
 
-                if (Double.TryParse(Console.ReadLine(), out value))
+                if (Double.TryParse(Console.ReadLine().Replace('.',','), out value))
                 {
                     double roundedValue = Math.Round(value, MidpointRounding.AwayFromZero);
                     if (roundedValue>0)

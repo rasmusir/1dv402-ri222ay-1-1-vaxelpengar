@@ -10,15 +10,22 @@ namespace _1dv402
     {
         static void Main(string[] args)
         {
-            double subtotal = ReadPositiveDouble("Ange totalsumma\t\t: ");
-            uint total = (uint)Math.Round(subtotal, MidpointRounding.AwayFromZero);
-            uint cash = ReadUint("Ange erhållet belopp\t: ", total);
-            uint change = cash - total;
-            double roundingOffAmount = total - subtotal;
+            do
+            {
+                Console.Clear();
+                double subtotal = ReadPositiveDouble("Ange totalsumma\t\t: ");
+                uint total = (uint)Math.Round(subtotal, MidpointRounding.AwayFromZero);
+                uint cash = ReadUint("Ange erhållet belopp\t: ", total);
+                uint change = cash - total;
+                double roundingOffAmount = total - subtotal;
 
-            uint[] ret = SplitIntoDenominations(change, new uint[] { 1, 5, 10, 20, 50, 100, 500 });
+                uint[] ret = SplitIntoDenominations(change, new uint[] { 1, 5, 10, 20, 50, 100, 500 });
 
-            PrintReceipt(subtotal, roundingOffAmount, total, cash, change, ret, new string[] {"1-kronor","5-kronor","10-kronor","20-lappar","50-lappar","100-lappar","500-lappar"});
+                PrintReceipt(subtotal, roundingOffAmount, total, cash, change, ret, new string[] { "1-kronor", "5-kronor", "10-kronor", "20-lappar", "50-lappar", "100-lappar", "500-lappar" });
+                Console.Write("\n");
+                ShowMessage("Tryck tangent för ny beräkning - Esc avslutar.");
+            }
+            while (Console.ReadKey().Key != ConsoleKey.Escape);
         }
 
         static double ReadPositiveDouble(string prompt = null)
@@ -44,7 +51,7 @@ namespace _1dv402
                 else
                     ShowMessage("Whops! Du har inte skrivit in en giltig summa.", true);
             }
-            return value;
+            return Math.Round(value,2);
 
         }
 
@@ -91,6 +98,7 @@ namespace _1dv402
             if (isError)
             {
                 Console.BackgroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine(message);
                 Console.ResetColor();
                 return;
@@ -98,6 +106,7 @@ namespace _1dv402
             else        //Egenteligen onödigt med tanke på return här över... men har den kvar för readability.
             {
                 Console.BackgroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine(message);
                 Console.ResetColor();
                 return;
@@ -120,7 +129,7 @@ namespace _1dv402
             for (int i = 0; i<notes.Length; i++)
             {
                 if (notes[i] > 0)
-                    Console.WriteLine("\t\t:{1,5} st",denominations[i],notes[i]);
+                    Console.WriteLine("{0,1}\t\t:{1,5} st",denominations[i],notes[i]);
             }
         }
     }

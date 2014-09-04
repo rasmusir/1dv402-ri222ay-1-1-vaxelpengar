@@ -18,7 +18,7 @@ namespace _1dv402
 
             uint[] ret = SplitIntoDenominations(change, new uint[] { 1, 5, 10, 20, 50, 100, 500 });
 
-            PrintReceipt(subtotal, roundingOffAmount, total, cash, change, ret, null);
+            PrintReceipt(subtotal, roundingOffAmount, total, cash, change, ret, new string[] {"1-kronor","5-kronor","10-kronor","20-lappar","50-lappar","100-lappar","500-lappar"});
         }
 
         static double ReadPositiveDouble(string prompt = null)
@@ -33,7 +33,7 @@ namespace _1dv402
 
                 value = 0;
 
-                if (Double.TryParse(Console.ReadLine(), out value))
+                if (Double.TryParse(Console.ReadLine(), System.Globalization.NumberStyles.AllowDecimalPoint,System.Globalization.CultureInfo.InvariantCulture,out value))
                 {
                     double roundedValue = Math.Round(value, MidpointRounding.AwayFromZero);
                     if (roundedValue > 0)
@@ -105,12 +105,23 @@ namespace _1dv402
 
         }
 
-        static void PrintReceipt(double subtotal, double roundingOffAmount, uint total, uint cash, uint change, uint[] notes, uint[] denominations)
+        static void PrintReceipt(double subtotal, double roundingOffAmount, uint total, uint cash, uint change, uint[] notes, string[] denominations)
         {
+            Console.Write("\n");
             Console.WriteLine("KVITTO");
-            Console.WriteLine("Totalt\t\t\t:{0,5}", subtotal);
-            Console.WriteLine("Öresavrundning\t\t:{0,5}", roundingOffAmount);
-            Console.WriteLine("Att betala\t\t:{0,5}", total);
+            Console.WriteLine("==================================");
+            Console.WriteLine("Totalt\t\t\t:{0,5} kr", subtotal);
+            Console.WriteLine("Öresavrundning\t\t:{0,5} kr", roundingOffAmount);
+            Console.WriteLine("Att betala\t\t:{0,5} kr", total);
+            Console.WriteLine("Kontant\t\t\t:{0,5} kr", cash);
+            Console.WriteLine("Tillbaka\t\t:{0,5} kr", change);
+            Console.WriteLine("==================================");
+
+            for (int i = 0; i<notes.Length; i++)
+            {
+                if (notes[i] > 0)
+                    Console.WriteLine("\t\t:{1,5} st",denominations[i],notes[i]);
+            }
         }
     }
 }

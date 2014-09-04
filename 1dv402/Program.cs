@@ -17,7 +17,7 @@ namespace _1dv402
                 uint total = (uint)Math.Round(subtotal, MidpointRounding.AwayFromZero);
                 uint cash = ReadUint("Ange erhållet belopp\t: ", total);
                 uint change = cash - total;
-                double roundingOffAmount = total - subtotal;
+                double roundingOffAmount = Math.Round(total - subtotal,2);
 
                 uint[] ret = SplitIntoDenominations(change, new uint[] { 1, 5, 10, 20, 50, 100, 500 });
 
@@ -51,7 +51,7 @@ namespace _1dv402
                 else
                     ShowMessage("Whops! Du har inte skrivit in en giltig summa.", true);
             }
-            return Math.Round(value,2);
+            return value;
 
         }
 

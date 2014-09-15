@@ -18,12 +18,12 @@ namespace _1dv402
                 uint cash = ReadUint("Ange erhållet belopp\t: ", total);
                 uint change = cash - total;
                 double roundingOffAmount = Math.Round(total - subtotal,2);
+                uint[] denominations = new uint[] { 1, 5, 10, 20, 50, 100, 500 };
+                uint[] ret = SplitIntoDenominations(change, denominations);
 
-                uint[] ret = SplitIntoDenominations(change, new uint[] { 1, 5, 10, 20, 50, 100, 500 });
-
-                PrintReceipt(subtotal, roundingOffAmount, total, cash, change, ret, new string[] { "1-kronor", "5-kronor", "10-kronor", "20-lappar", "50-lappar", "100-lappar", "500-lappar" });
+                ViewReceipt(subtotal, roundingOffAmount, total, cash, change, ret, denominations);
                 Console.Write("\n");
-                ShowMessage("Tryck tangent för ny beräkning - Esc avslutar.");
+                ViewMessage("Tryck tangent för ny beräkning - Esc avslutar.");
             }
             while (Console.ReadKey().Key != ConsoleKey.Escape);
         }
@@ -46,10 +46,10 @@ namespace _1dv402
                     if (roundedValue > 0)
                         break;
                     else
-                        ShowMessage("Whops! '" + value + "' är en för liten summa.", true);
+                        ViewMessage("Whops! '" + value + "' är en för liten summa.", true);
                 }
                 else
-                    ShowMessage("Whops! Du har inte skrivit in en giltig summa.", true);
+                    ViewMessage("Whops! Du har inte skrivit in en giltig summa.", true);
             }
             return value;
 
@@ -66,12 +66,12 @@ namespace _1dv402
                 if (UInt32.TryParse(Console.ReadLine(), out value))
                 {
                     if (value < min)
-                        ShowMessage("Whops! '" + value + "' är ett för litet belopp.", true);
+                        ViewMessage("Whops! '" + value + "' är ett för litet belopp.", true);
                     else
                         break;
                 }
                 else
-                    ShowMessage("Whops! Du har inte skrivit in en giltig summa.", true);
+                    ViewMessage("Whops! Du har inte skrivit in en giltig summa.", true);
             }
 
             return value;
@@ -93,7 +93,7 @@ namespace _1dv402
             return values;
         }
 
-        static void ShowMessage(string message, bool isError = false)
+        static void ViewMessage(string message, bool isError = false)
         {
             if (isError)
             {
@@ -114,7 +114,7 @@ namespace _1dv402
 
         }
 
-        static void PrintReceipt(double subtotal, double roundingOffAmount, uint total, uint cash, uint change, uint[] notes, string[] denominations)
+        static void ViewReceipt(double subtotal, double roundingOffAmount, uint total, uint cash, uint change, uint[] notes, uint[] denominations)
         {
             Console.Write("\n");
             Console.WriteLine("KVITTO");
@@ -129,7 +129,9 @@ namespace _1dv402
             for (int i = 0; i<notes.Length; i++)
             {
                 if (notes[i] > 0)
-                    Console.WriteLine("{0,1}\t\t:{1,5} st",denominations[i],notes[i]);
+                    Console.WriteLine("{0,11}\t\t:{1,5} st",denominations[i].ToString() + (denominations[i] > 10 ? "-lappar" : "-kronor"),notes[i]);
+
+                //http://www.blackwasp.co.uk/SpeedTestConcatenation.aspx
             }
         }
     }

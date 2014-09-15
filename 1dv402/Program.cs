@@ -132,6 +132,9 @@ namespace _1dv402
                     Console.WriteLine("{0,11}\t\t:{1,5} st",denominations[i].ToString() + (denominations[i] > 10 ? "-lappar" : "-kronor"),notes[i]);
 
                 //http://www.blackwasp.co.uk/SpeedTestConcatenation.aspx
+                // Hade strängen varit större än vad den är , alt hade jag loopat mer hade jag använt
+                // StringBuilder. Jag anser att använda + i det här fallet är giltigt. Se ovan för
+                // hastighetsgämförelser.
             }
         }
     }

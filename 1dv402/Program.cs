@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Resources;
 
 namespace _1dv402
 {
@@ -10,6 +11,7 @@ namespace _1dv402
     {
         static void Main(string[] args)
         {
+
             do
             {
                 Console.Clear();
